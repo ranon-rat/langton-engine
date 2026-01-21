@@ -1,0 +1,1 @@
+            ctx.fillRect(value.x * this.blockSize + this.blockSize / 4, value.y * this.blockSize + this.blockSize / 4, this.blockSize / 2, this.blockSize / 2)
