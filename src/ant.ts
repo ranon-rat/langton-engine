@@ -14,10 +14,10 @@ export class LangtonAnt {
     updateIndex() {
         switch (this.currentState) {
             case RotationMove.RotateLeft:
-                this.index++;
+                this.index--;
                 break;
             case RotationMove.RotateRight:
-                this.index--;
+                this.index++;
                 break;
             case RotationMove.NothingYet:
                 //console.log("weird shit")

@@ -22,6 +22,7 @@ function renderCells() {
         }
             </button>
             <button class="delete-cell" data-identifier="${c.identifier}">x</button>
+            <input type="color" style="display:none" data-identifier="${c.identifier}">
         </span>`
     )).join("");
 
