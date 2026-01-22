@@ -2,6 +2,7 @@ import { RotationMove } from "./core.js";
 import { LangtonGame } from "./game.js";
 let game: LangtonGame | null = null;
 let antCells: HTMLElement | null = null;
+let antCellsSelection: HTMLElement | null = null
 function deleteCell(identifier: number) {
     console.log("identifier", identifier)
     game!.deleteCell(identifier)
@@ -52,11 +53,19 @@ function renderCells() {
         button.addEventListener("contextmenu", e => {
             e.preventDefault()
             const input = antCells!.querySelector(`input[data-identifier="${identifier}"]`) as HTMLInputElement
-            const rect = button.getBoundingClientRect();
+            const updatePosition = () => {
+                const buttonRect = button.getBoundingClientRect();
 
-            input.style.left = `${rect.right + 6}px`;
-            input.style.top = `${rect.top}px`;
 
+                // Position relative to viewport → input becomes fixed
+                input.style.position = "fixed";           // ← key change
+                input.style.left = (buttonRect.right + window.scrollX + 10) + "px";
+                input.style.top = (buttonRect.top + window.scrollY) + "px";
+
+                // Optional: try to align better vertically
+                // input.style.top = `${buttonRect.top + (buttonRect.height - 32)/2}px`; // rough center
+            };
+            updatePosition();
             input.style.opacity = "1";
             input.style.pointerEvents = "auto";
 
@@ -87,6 +96,7 @@ window.addEventListener("DOMContentLoaded", (_) => {
     const addMore = document.getElementById("add-more")!;
     const pauseButton = document.getElementById("ant-pause")!;
     antCells = document.getElementById("ant-cells")!
+    antCellsSelection = document.getElementById("cells-selections")!
     // api 
 
     const ctx = canvas.getContext("2d")!;

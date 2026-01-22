@@ -190,20 +190,22 @@ body {
     background: var(--delete-cell-button-color-hover);
 }
 
+/* Make sure the color picker can escape the container */
 .color-cell-picker {
-    position: fixed;
-    opacity: 0;
-    pointer-events: none;
-    width: 0;
-    height: 0;
+  position: fixed !important;   /* override whatever was there */
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  width: 1px; height: 1px;      /* hide the tiny square trigger */
+  padding: 0;
+  margin: 0;
+  border: none;
 }
 
-/* Quitar el borde por defecto en algunos navegadores */
+/* Optional: style the actual picker popup if browser allows */
 input[type="color"]::-webkit-color-swatch-wrapper {
-    padding: 0;
+  padding: 0;
 }
-
 input[type="color"]::-webkit-color-swatch {
-    border: 3px solid #ffffff;
-    border-radius: 50%;
+  border: none;
 }
