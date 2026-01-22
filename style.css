@@ -187,3 +187,21 @@ body {
 .delete-cell:hover {
     background: var(--delete-cell-button-color-hover);
 }
+
+.color-cell-picker {
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+}
+
+/* Quitar el borde por defecto en algunos navegadores */
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+}

@@ -22,47 +22,60 @@ function renderCells() {
         }
             </button>
             <button class="delete-cell" data-identifier="${c.identifier}">x</button>
-            <input type="color" style="display:none" data-identifier="${c.identifier}">
+            <input type="color" class="color-cell-picker" data-identifier="${c.identifier}" id="${c.identifier}" value="${c.color}">
         </span>`
     )).join("");
 
     // Agregar event listeners DESPUÉS de insertar el HTML
     const deleteButtons = antCells!.querySelectorAll('.delete-cell');
-    console.log(deleteButtons)
+    const colorUpdate = antCells!.querySelectorAll(".color-cell-picker");
+    const updateButtons = antCells!.querySelectorAll(".cell-button");
     deleteButtons.forEach((button) => {
         const identifier = parseInt((button as HTMLElement).dataset.identifier!);
         button.addEventListener('click', () => deleteCell(identifier));
     });
-    const updateButtons = antCells!.querySelectorAll(".cell-button");
+    colorUpdate.forEach((element) => {
+        const input = element as HTMLInputElement
+        const identifier = parseInt(input.dataset.identifier!);
+        const cell = game!.getCell(identifier);
+        input.value = cell.color;
+        input.addEventListener("input", (e) => {
+            cell.color = input.value;
+            const cellButton = antCells!.querySelector<HTMLButtonElement>(`.cell-button[data-identifier="${identifier}"]`);
+            cellButton!.style.backgroundColor = cell.color;
+        })
+    })
     updateButtons.forEach((element) => {
         const button = element as HTMLElement
-        button.addEventListener("contextmenu", e => e.preventDefault());
         const identifier = parseInt((button as HTMLElement).dataset.identifier!);
         let cell = game!.getCell(identifier)
+        button.addEventListener("contextmenu", e => {
+            e.preventDefault()
+            const input = antCells!.querySelector(`input[data-identifier="${identifier}"]`) as HTMLInputElement
+            const rect = button.getBoundingClientRect();
+
+            input.style.left = `${rect.right + 6}px`;
+            input.style.top = `${rect.top}px`;
+
+            input.style.opacity = "1";
+            input.style.pointerEvents = "auto";
+
+            input.click();
+        });
+
         button.addEventListener("click", (e: MouseEvent) => {
-            switch (e.button) {
-                case 0:
-                    cell.rotation = ({
-                        [RotationMove.RotateLeft]: RotationMove.RotateRight,
-                        [RotationMove.RotateRight]: RotationMove.RotateLeft,
-                        [RotationMove.NothingYet]: RotationMove.RotateLeft,
-                    } as Record<RotationMove, RotationMove>)[cell.rotation];
-                    button.innerText = {
-                        [RotationMove.RotateLeft]: "◂",
-                        [RotationMove.RotateRight]: "▸",
-                        [RotationMove.NothingYet]: "?",
-                    }[cell.rotation]
-                    break;
-                case 1:
-                    alert("weird freak");
-                    break;
-                case 2:
-                    // en el derecho me gustaria 
-                    // poder llegar a cambiar el color me pregunto 
-                    // a ya se como puedo hacer esto pero tengo que pensar un poco en como hacerlo hmm
-                    console.log("Derecho", identifier);
-                    break;
-            }
+
+            cell.rotation = ({
+                [RotationMove.RotateLeft]: RotationMove.RotateRight,
+                [RotationMove.RotateRight]: RotationMove.RotateLeft,
+                [RotationMove.NothingYet]: RotationMove.RotateLeft,
+            } as Record<RotationMove, RotationMove>)[cell.rotation];
+            button.innerText = {
+                [RotationMove.RotateLeft]: "◂",
+                [RotationMove.RotateRight]: "▸",
+                [RotationMove.NothingYet]: "?",
+            }[cell.rotation];
+
         });
     })
 
