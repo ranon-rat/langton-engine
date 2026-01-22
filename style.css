@@ -111,7 +111,8 @@ body {
     border-radius: 4px;
 }
 
-#ant-restart {
+#ant-restart,
+#ant-pause {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -124,7 +125,8 @@ body {
     flex-shrink: 0;
 }
 
-#ant-restart:hover {
+#ant-restart:hover,
+#ant-pause:hover {
     background-color: var(--restart-button-background-color-hover);
 }
 

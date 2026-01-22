@@ -5,7 +5,7 @@ export class LangtonGame {
     private readonly FPS = 60
     private readonly frameDelay = 1000 / this.FPS
     private lastFrameTime: number = 0
-
+    pause = false;
     data: number[] = [];
     cellStates: DirectionCells[] = [
         new DirectionCells(
@@ -50,8 +50,13 @@ export class LangtonGame {
                     this.blockSize);
 
             }
+
             for (let ant of this.ants) {
-                ant.update(this.cellStates, this.data, this.width, this.height);
+                if (!this.pause) {
+                    ant.update(this.cellStates, this.data, this.width, this.height);
+
+                }
+
                 ant.draw(this.ctx, this.blockSize);
             }
             this.lastFrameTime = currentTime
@@ -91,6 +96,10 @@ export class LangtonGame {
         const x = Math.floor(xScreenRatio * this.width);
         const y = Math.floor(yScreenRatio * this.height);
         this.ants.push(new LangtonAnt(x, y));
+    }
+
+    changePause() {
+        this.pause = !this.pause;
     }
 
 

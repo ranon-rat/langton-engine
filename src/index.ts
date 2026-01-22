@@ -85,6 +85,7 @@ window.addEventListener("DOMContentLoaded", (_) => {
     const canvas = document.getElementById("screen")! as HTMLCanvasElement;
     const restartButton = document.getElementById("ant-restart")!
     const addMore = document.getElementById("add-more")!;
+    const pauseButton = document.getElementById("ant-pause")!;
     antCells = document.getElementById("ant-cells")!
     // api 
 
@@ -107,8 +108,11 @@ window.addEventListener("DOMContentLoaded", (_) => {
     addMore.onclick = (_) => {
         game?.addNewCell()
         renderCells();
-
     }
+    pauseButton.onclick = (_) => {
+        game!.changePause();
+        pauseButton.innerText = game!.pause ? "Λ" : "Ο";
+    };
     renderCells()
 
 
